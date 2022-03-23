@@ -6,10 +6,10 @@ export type DataType = {
   category: string;
   stocked: boolean;
 };
-export type SetState<T> = React.Dispatch<React.SetStateAction<T>>;
+export type SetStateType<T> = React.Dispatch<React.SetStateAction<T>>;
 export interface ProductTableState {
   filterText: string;
   inStockOnly: boolean;
-  onFilterTextChange: SetState<string>;
-  onInStockOnlyChange: SetState<boolean>;
+  onFilterTextChange: SetStateType<string>;
+  onInStockOnlyChange: SetStateType<boolean>;
 }
