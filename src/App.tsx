@@ -1,16 +1,46 @@
-import React from "react";
+import React, { useState } from "react";
 import logo from "./logo.svg";
 import "./App.css";
-import Product from "./product-table";
+import Product from "@/product-table";
+import TicTacToe from "@/tic-tac-toe";
+import { appListType, AppNameType, TabPropsType } from "@/type";
+
+export const APP_LIST: appListType = {
+  Product: <Product />,
+  TicTacToe: <TicTacToe />,
+};
+
+const Tab = ({ appList, currentAppName, setCurrentAppName }: TabPropsType) => {
+  return (
+    <div className="tab">
+      {Object.keys(appList).map((__appName) => {
+        return (
+          <div
+            className={
+              currentAppName === __appName ? "tab-item active" : "tab-item"
+            }
+            onClick={() => setCurrentAppName(__appName)}
+          >
+            {__appName}
+          </div>
+        );
+      })}
+    </div>
+  );
+};
 
 export default function App() {
+  const [currentAppName, setCurrentAppName] = useState<AppNameType>("Product");
   return (
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
-        <div className="App-main-container">
-          <Product />
-        </div>
+        <Tab
+          appList={APP_LIST}
+          currentAppName={currentAppName}
+          setCurrentAppName={setCurrentAppName}
+        />
+        <div className="App-main-container">{APP_LIST[currentAppName]}</div>
       </header>
     </div>
   );
