@@ -1,0 +1,26 @@
+@font-size: 32px;
+@square-size: 2rem;
+.board {
+  margin: 20px auto;
+  display: flex;
+  width: 3 * @square-size;
+  height: 3 * @square-size;
+  background-color: rgba(255, 255, 255, 0.2);
+  flex-wrap: wrap;
+}
+
+.square {
+  overflow: hidden;
+  width: @square-size;
+  height: @square-size;
+  border: 0.5px solid #fff;
+  font-size: @font-size;
+  box-sizing: border-box;
+  flex-shrink: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  & div {
+    line-height: @font-size;
+  }
+}

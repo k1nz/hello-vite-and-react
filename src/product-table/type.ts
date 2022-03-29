@@ -1,4 +1,4 @@
-import React from "react";
+import { SetStateType } from "@/type";
 
 export type DataType = {
   price: string;
@@ -6,7 +6,6 @@ export type DataType = {
   category: string;
   stocked: boolean;
 };
-export type SetStateType<T> = React.Dispatch<React.SetStateAction<T>>;
 export interface ProductTableState {
   filterText: string;
   inStockOnly: boolean;
