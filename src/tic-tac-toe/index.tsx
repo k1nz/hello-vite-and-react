@@ -5,7 +5,7 @@ import GameStatus from "@/tic-tac-toe/GameStatus";
 
 const initialGameState: GameStateType = {
   currentStep: 0,
-  board: new Array(9).fill(null),
+  history: [new Array(9).fill(null)],
   currentPlayer: "O",
   winner: null,
 };
@@ -19,7 +19,7 @@ const TicTacToe = () => {
         <button onClick={() => setGameState(initialGameState)}>New Game</button>
       </div>
       <Board gameState={gameState} setGameState={setGameState} />
-      <GameStatus gameState={gameState} />
+      <GameStatus gameState={gameState} setGameState={setGameState} />
     </div>
   );
 };

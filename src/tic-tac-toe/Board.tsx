@@ -1,4 +1,8 @@
-import { GameStateCollection, SquarePropsType } from "@/tic-tac-toe/type";
+import {
+  BoardType,
+  GameStateCollection,
+  SquarePropsType,
+} from "@/tic-tac-toe/type";
 import styles from "./board.module.less";
 import React from "react";
 
@@ -22,39 +26,54 @@ const Square: React.FC<SquarePropsType> = ({ player, onClick }) => {
 };
 
 const Board: React.FC<GameStateCollection> = ({ gameState, setGameState }) => {
-  const { board } = gameState;
-  const checkWinner = (board: typeof gameState["board"]) => {
+  const { history, currentStep, currentPlayer } = gameState;
+  const boardSnapshot = history[currentStep];
+
+  const checkWinner = (currentBoard: BoardType) => {
     for (const successIndexArr of SUCCESS) {
       const [a, b, c] = successIndexArr;
-      if (board[a] && board[a] === board[b] && board[a] === board[c]) {
-        alert(`${board[a]} Win!`);
-        return board[a];
+      if (
+        currentBoard[a] &&
+        currentBoard[a] === currentBoard[b] &&
+        currentBoard[a] === currentBoard[c]
+      ) {
+        alert(`${currentBoard[a]} Win!`);
+        return currentBoard[a];
       }
     }
     return null;
   };
 
   const squareClick = (index: number) => {
-    if (board[index] || gameState.winner !== null) return;
-    const currentBoard = board.map((originalPlayer, idx) => {
-      if (originalPlayer === null && idx === index)
-        return gameState.currentPlayer;
+    const nextStep = currentStep + 1;
+    if (
+      boardSnapshot[index] ||
+      (gameState.winner !== null && history.length === nextStep) // 判断是否已经赢得比赛，并且当前为最后一次记录
+    )
+      return;
+    const currentBoard = boardSnapshot.map((originalPlayer, idx) => {
+      if (originalPlayer === null && idx === index) return currentPlayer;
       return originalPlayer;
     });
-    const nextPlayer = gameState.currentPlayer === "X" ? "O" : "X";
+    // @ts-ignore
+    const newHistory = structuredClone(
+      history.slice(0, currentStep + 1)
+    ) as typeof history;
+    newHistory.push(currentBoard);
+    const nextPlayer = nextStep % 2 === 0 ? "O" : "X";
     const winner = checkWinner(currentBoard);
 
-    setGameState((prevState) => ({
-      ...prevState,
+    setGameState({
+      currentStep: nextStep,
       currentPlayer: nextPlayer,
-      board: currentBoard,
+      history: newHistory,
       winner,
-    }));
+    });
   };
 
   return (
     <div className={styles.board}>
-      {board.map((player, idx) => (
+      {boardSnapshot.map((player, idx) => (
         <Square player={player} key={idx} onClick={() => squareClick(idx)} />
       ))}
     </div>

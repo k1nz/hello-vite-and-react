@@ -2,11 +2,12 @@ import React from "react";
 import { SetStateType } from "@/type";
 
 export type PlayerType = "X" | "O";
+export type BoardType = Array<PlayerType | null>;
 export type GameStateType = {
   currentPlayer: PlayerType;
   currentStep: number;
-  board: Array<PlayerType | null>;
   winner: PlayerType | null;
+  history: Array<BoardType>;
 };
 
 export interface GameStateCollection {
